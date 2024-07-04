@@ -2,6 +2,7 @@ package com.zhiend.projectms.service;
 
 import com.zhiend.projectms.entity.DevelopmentStatus;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zhiend.projectms.page.BackPage;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IDevelopmentStatusService extends IService<DevelopmentStatus> {
 
+    BackPage<DevelopmentStatus> listByBackPage(Long pageNo, Long pageSize);
 }

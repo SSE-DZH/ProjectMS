@@ -1,7 +1,11 @@
 package com.zhiend.projectms.service;
 
+import com.zhiend.projectms.dto.ProjectsDTO;
 import com.zhiend.projectms.entity.Projects;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zhiend.projectms.page.BackPage;
+
+import java.util.ArrayList;
 
 /**
  * <p>
@@ -12,5 +16,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2024-07-04
  */
 public interface IProjectsService extends IService<Projects> {
+    BackPage<Projects> listByBackPage(Long pageNo, Long pageSize);
 
+    ArrayList<String> getAllProjectNames();
+
+    void addProject(ProjectsDTO projectsDTO);
+    boolean isProjectNameExists(String projectName);
+    void updateProject(Long id, ProjectsDTO projectsDTO);
 }

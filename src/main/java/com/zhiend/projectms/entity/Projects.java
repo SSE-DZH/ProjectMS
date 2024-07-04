@@ -1,13 +1,17 @@
 package com.zhiend.projectms.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.zhiend.projectms.enums.StatusEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.apache.ibatis.type.EnumTypeHandler;
 
 /**
  * <p>
@@ -31,10 +35,6 @@ public class Projects implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * 序号
-     */
-    private String serialNumber;
 
     /**
      * 产品名称
@@ -94,7 +94,8 @@ public class Projects implements Serializable {
     /**
      * 当前状态
      */
-    private String currentStatus;
+    @TableField(typeHandler = EnumTypeHandler.class)
+    private StatusEnum currentStatus;
 
 
 }
