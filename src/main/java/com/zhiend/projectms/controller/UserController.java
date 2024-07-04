@@ -2,7 +2,6 @@ package com.zhiend.projectms.controller;
 
 
 import com.zhiend.projectms.dto.UserDTO;
-import com.zhiend.projectms.entity.Admin;
 import com.zhiend.projectms.entity.User;
 import com.zhiend.projectms.page.BackPage;
 import com.zhiend.projectms.result.Result;
@@ -10,11 +9,9 @@ import com.zhiend.projectms.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <p>
@@ -91,6 +88,7 @@ public class UserController {
 
     @ApiOperation(value = "删除用户")
     @DeleteMapping("/{id}")
+    @Transactional
     public Result<?> deleteUser(@PathVariable Integer id) {
         boolean removed = userService.removeById(id);
         if (!removed) {

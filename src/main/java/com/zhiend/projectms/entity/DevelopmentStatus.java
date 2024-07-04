@@ -1,12 +1,17 @@
 package com.zhiend.projectms.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.zhiend.projectms.enums.ProgressEnum;
+import com.zhiend.projectms.enums.StatusEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.apache.ibatis.type.EnumTypeHandler;
 
 /**
  * <p>
@@ -36,19 +41,21 @@ public class DevelopmentStatus implements Serializable {
     private Integer projectId;
 
     /**
-     * 当前状态
+     * 当前状态，改为枚举类型
      */
-    private String currentStatus;
+    @TableField(typeHandler = EnumTypeHandler.class)
+    private StatusEnum currentStatus;
 
     /**
-     * 本周完成情况
+     * 本周完成情况，改为枚举类型
      */
-    private String thisWeekProgress;
+    @TableField(typeHandler = EnumTypeHandler.class)
+    private ProgressEnum thisWeekProgress;
 
     /**
      * 下周工作安排
      */
     private String nextWeekPlan;
 
-
 }
+

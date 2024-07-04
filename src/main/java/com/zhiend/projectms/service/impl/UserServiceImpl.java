@@ -12,6 +12,7 @@ import com.zhiend.projectms.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -33,6 +34,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
+    @Transactional
     public void register(UserDTO userDTO) {
         User user = new User();
         BeanUtils.copyProperties(userDTO, user);
@@ -40,6 +42,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
+    @Transactional
     public void updateAdmin(Long id, UserDTO userDTO) {
         User admin = this.getById(id);
         if (admin != null) {

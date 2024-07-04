@@ -11,6 +11,7 @@ import com.zhiend.projectms.service.IAdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +36,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
     @Override
+    @Transactional
     public void updateAdmin(Long id, UserDTO userDTO) {
         Admin admin = this.getById(id);
         if (admin != null) {
@@ -44,6 +46,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
     @Override
+    @Transactional
     public void addAdmin(UserDTO adminDTO) {
         Admin admin = new Admin();
         BeanUtils.copyProperties(adminDTO, admin);
