@@ -19,4 +19,6 @@ public interface IUserService extends IService<User> {
     void register(UserDTO userDTO);
 
     BackPage<User> listByBackPage(Long pageNo, Long pageSize);
+
+    void updateAdmin(Long id, UserDTO userDTO);
 }

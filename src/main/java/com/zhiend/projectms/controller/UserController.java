@@ -75,13 +75,18 @@ public class UserController {
     @ApiOperation(value = "更新用户")
     @PutMapping("/{id}")
     public Result<?> updateAdmin(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        User user = userService.getById(id);
-        if (user == null) {
-            return Result.error("Admin not found");
+        boolean isEmailExists = userService.isEmailExists(userDTO.getEmail());
+
+        if (isEmailExists) {
+            return Result.error("Email already exists");
         }
-        BeanUtils.copyProperties(userDTO, user);
-        userService.updateById(user);
-        return Result.success("Admin updated successfully");
+
+        try {
+            userService.updateAdmin(id, userDTO);
+            return Result.success("Admin updated successfully");
+        } catch (Exception e) {
+            return Result.error("An error occurred: " + e.getMessage());
+        }
     }
 
     @ApiOperation(value = "删除用户")

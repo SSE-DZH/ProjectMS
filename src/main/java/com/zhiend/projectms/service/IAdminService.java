@@ -19,4 +19,6 @@ public interface IAdminService extends IService<Admin> {
     boolean isEmailExists(String email);
     void addAdmin(UserDTO adminDTO);
     BackPage<Admin> listByBackPage(Long pageNo, Long pageSize);
+
+    void updateAdmin(Long id, UserDTO userDTO);
 }

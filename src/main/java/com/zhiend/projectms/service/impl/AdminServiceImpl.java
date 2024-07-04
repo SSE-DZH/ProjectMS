@@ -35,6 +35,15 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
     @Override
+    public void updateAdmin(Long id, UserDTO userDTO) {
+        Admin admin = this.getById(id);
+        if (admin != null) {
+            BeanUtils.copyProperties(userDTO, admin);
+            this.updateById(admin);
+        }
+    }
+
+    @Override
     public void addAdmin(UserDTO adminDTO) {
         Admin admin = new Admin();
         BeanUtils.copyProperties(adminDTO, admin);

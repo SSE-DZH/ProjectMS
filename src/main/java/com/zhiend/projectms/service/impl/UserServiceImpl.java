@@ -40,6 +40,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
+    public void updateAdmin(Long id, UserDTO userDTO) {
+        User admin = this.getById(id);
+        if (admin != null) {
+            BeanUtils.copyProperties(userDTO, admin);
+            this.updateById(admin);
+        }
+    }
+
+    @Override
     public BackPage<User> listByBackPage(Long pageNo, Long pageSize) {
         BackPage<User> UserBackPage = new BackPage<>();
         // 设置条件构造器

@@ -13,7 +13,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 /**
  * <p>
@@ -65,13 +64,18 @@ public class AdminController {
     @ApiOperation("更新管理员")
     @PutMapping("/{id}")
     public Result<?> updateAdmin(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        Admin admin = adminService.getById(id);
-        if (admin == null) {
-            return Result.error("Admin not found");
+        boolean isEmailExists = adminService.isEmailExists(userDTO.getEmail());
+
+        if (isEmailExists) {
+            return Result.error("Email already exists");
         }
-        BeanUtils.copyProperties(userDTO, admin);
-        adminService.updateById(admin);
-        return Result.success("Admin updated successfully");
+
+        try {
+            adminService.updateAdmin(id, userDTO);
+            return Result.success("Admin updated successfully");
+        } catch (Exception e) {
+            return Result.error("An error occurred: " + e.getMessage());
+        }
     }
 
     @ApiOperation("删除管理员")
