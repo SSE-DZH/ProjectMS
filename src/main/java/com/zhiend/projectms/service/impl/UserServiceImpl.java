@@ -1,8 +1,8 @@
 package com.zhiend.projectms.service.impl;
 
-import com.zhiend.projectms.entity.Users;
-import com.zhiend.projectms.mapper.UsersMapper;
-import com.zhiend.projectms.service.IUsersService;
+import com.zhiend.projectms.entity.User;
+import com.zhiend.projectms.mapper.UserMapper;
+import com.zhiend.projectms.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-07-04
  */
 @Service
-public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements IUsersService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
 }

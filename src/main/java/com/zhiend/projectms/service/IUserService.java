@@ -1,6 +1,6 @@
 package com.zhiend.projectms.service;
 
-import com.zhiend.projectms.entity.Users;
+import com.zhiend.projectms.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author Zhiend
  * @since 2024-07-04
  */
-public interface IUsersService extends IService<Users> {
+public interface IUserService extends IService<User> {
 
 }

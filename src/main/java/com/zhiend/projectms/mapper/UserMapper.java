@@ -1,6 +1,6 @@
 package com.zhiend.projectms.mapper;
 
-import com.zhiend.projectms.entity.Users;
+import com.zhiend.projectms.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Zhiend
  * @since 2024-07-04
  */
-public interface UsersMapper extends BaseMapper<Users> {
+public interface UserMapper extends BaseMapper<User> {
 
 }
