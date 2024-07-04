@@ -7,7 +7,7 @@ import com.zhiend.projectms.result.Result;
 import com.zhiend.projectms.service.IAdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 @Api(tags = "管理员管理")
-@Log4j
+@Slf4j
 public class AdminController {
 
     @Autowired
