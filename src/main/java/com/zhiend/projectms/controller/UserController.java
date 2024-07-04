@@ -2,7 +2,9 @@ package com.zhiend.projectms.controller;
 
 
 import com.zhiend.projectms.dto.UserDTO;
+import com.zhiend.projectms.entity.Admin;
 import com.zhiend.projectms.entity.User;
+import com.zhiend.projectms.page.BackPage;
 import com.zhiend.projectms.result.Result;
 import com.zhiend.projectms.service.IUserService;
 import io.swagger.annotations.Api;
@@ -34,17 +36,29 @@ public class UserController {
     @ApiOperation(value = "用户注册")
     @PostMapping("/register")
     public Result<?> register(@RequestBody UserDTO userDTO) {
-        User user = new User();
-        BeanUtils.copyProperties(userDTO, user);
-        userService.save(user);
+        boolean isEmailExists = userService.isEmailExists(userDTO.getEmail());
+
+        if (isEmailExists) {
+            return Result.error("Email already exists");
+        }
+
+        userService.register(userDTO);
         return Result.success("User registered successfully");
     }
 
-    @ApiOperation(value = "获取所有用户")
+
+    @ApiOperation(value = "获取所有用户分页信息")
     @GetMapping("/all")
-    public Result<List<User>> getAllUsers() {
-        List<User> users = userService.list();
-        return Result.success(users);
+    public Result<BackPage<User>> getAllUsers(@RequestParam("pageNo") Long pageNo, @RequestParam("pageSize") Long pageSize) {
+        if (pageNo == null || pageSize == null) {
+            return Result.error("pageNo and pageSize cannot be null");
+        }
+        log.info("getAllUsers: pageNo={}, pageSize={}", pageNo, pageSize);
+        BackPage<User> userBackPage = userService.listByBackPage(pageNo, pageSize);
+        if(userBackPage == null){
+            return Result.error("User not found");
+        }
+        return Result.success(userBackPage);
     }
 
 
@@ -60,14 +74,14 @@ public class UserController {
 
     @ApiOperation(value = "更新用户")
     @PutMapping("/{id}")
-    public Result<?> updateUser(@RequestBody User user) {
-//        User user = userService.getById(user.getId());
-        if (userService.getById(user.getId()) == null) {
-            return Result.error("User not found");
+    public Result<?> updateAdmin(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+        User user = userService.getById(id);
+        if (user == null) {
+            return Result.error("Admin not found");
         }
-//        BeanUtils.copyProperties(userDTO, user);
+        BeanUtils.copyProperties(userDTO, user);
         userService.updateById(user);
-        return Result.success("User updated successfully");
+        return Result.success("Admin updated successfully");
     }
 
     @ApiOperation(value = "删除用户")

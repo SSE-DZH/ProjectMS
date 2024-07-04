@@ -3,6 +3,7 @@ package com.zhiend.projectms.controller;
 
 import com.zhiend.projectms.dto.UserDTO;
 import com.zhiend.projectms.entity.Admin;
+import com.zhiend.projectms.page.BackPage;
 import com.zhiend.projectms.result.Result;
 import com.zhiend.projectms.service.IAdminService;
 import io.swagger.annotations.Api;
@@ -34,16 +35,20 @@ public class AdminController {
     @ApiOperation("添加管理员")
     @PostMapping("/add")
     public Result<?> addAdmin(@RequestBody UserDTO adminDTO) {
-        Admin admin = new Admin();
-        BeanUtils.copyProperties(adminDTO, admin);
-        adminService.save(admin);
+        boolean isEmailExists = adminService.isEmailExists(adminDTO.getEmail());
+
+        if (isEmailExists) {
+            return Result.error("Email already exists");
+        }
+
+        adminService.addAdmin(adminDTO);
         return Result.success("Admin added successfully");
     }
 
-    @ApiOperation("获取所有管理员")
+    @ApiOperation("获取所有管理员分页信息")
     @GetMapping("/all")
-    public Result<List<Admin>> getAllAdmins() {
-        List<Admin> admins = adminService.list();
+    public Result<BackPage<Admin>> getAllAdmins(@RequestParam("pageNo") Long pageNo, @RequestParam("pageSize") Long pageSize) {
+        BackPage<Admin> admins = adminService.listByBackPage(pageNo, pageSize);
         return Result.success(admins);
     }
 
@@ -59,12 +64,12 @@ public class AdminController {
 
     @ApiOperation("更新管理员")
     @PutMapping("/{id}")
-    public Result<?> updateAdmin(@RequestBody Admin admin) {
-//        Admin admin = adminService.getById(id);
-        if (adminService.getById(admin.getId()) == null) {
+    public Result<?> updateAdmin(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+        Admin admin = adminService.getById(id);
+        if (admin == null) {
             return Result.error("Admin not found");
         }
-//        BeanUtils.copyProperties(adminDTO, admin);
+        BeanUtils.copyProperties(userDTO, admin);
         adminService.updateById(admin);
         return Result.success("Admin updated successfully");
     }

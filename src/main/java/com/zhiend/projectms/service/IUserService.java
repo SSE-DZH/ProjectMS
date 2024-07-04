@@ -1,7 +1,9 @@
 package com.zhiend.projectms.service;
 
+import com.zhiend.projectms.dto.UserDTO;
 import com.zhiend.projectms.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zhiend.projectms.page.BackPage;
 
 /**
  * <p>
@@ -12,5 +14,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2024-07-04
  */
 public interface IUserService extends IService<User> {
+    boolean isEmailExists(String email);
 
+    void register(UserDTO userDTO);
+
+    BackPage<User> listByBackPage(Long pageNo, Long pageSize);
 }
