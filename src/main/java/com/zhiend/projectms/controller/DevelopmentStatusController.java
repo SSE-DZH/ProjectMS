@@ -3,6 +3,7 @@ package com.zhiend.projectms.controller;
 
 import com.zhiend.projectms.dto.DevelopmentStatusDTO;
 import com.zhiend.projectms.entity.DevelopmentStatus;
+import com.zhiend.projectms.entity.Projects;
 import com.zhiend.projectms.page.BackPage;
 import com.zhiend.projectms.result.Result;
 import com.zhiend.projectms.service.IDevelopmentStatusService;
@@ -54,14 +55,27 @@ public class DevelopmentStatusController {
 
 
     @ApiOperation("根据状态id获取项目详细信息")
-    @GetMapping("/{id}")
+    @GetMapping("/project/{id}")
     public Result<?> getDevelopmentStatus(@PathVariable Long id) {
-        // 普通用户查看功能
-        // 实现根据 id 获取研制状态与进展信息的逻辑
-        // developmentStatusService.getById(id);
+        // 根据状态ID获取研制状态
         DevelopmentStatus developmentStatus = developmentStatusService.getById(id);
-        return Result.success(projectsService.getById(developmentStatus.getProjectId()));
+
+        if (developmentStatus == null) {
+            // 如果根据id没有找到对应的研制状态，返回友好提示
+            return Result.error("未找到对应的研制状态信息");
+        }
+
+        // 尝试根据研制状态中的项目ID获取项目详细信息
+        Projects project = projectsService.getById(developmentStatus.getProjectId());
+        if (project == null) {
+            // 如果项目ID无效或项目不存在，返回友好提示
+            return Result.error("未找到对应的项目信息");
+        }
+
+        // 成功获取到项目信息，返回结果
+        return Result.success(project);
     }
+
 
     @ApiOperation("添加研制状态与进展信息")
     @PostMapping("/add")
@@ -77,7 +91,7 @@ public class DevelopmentStatusController {
     }
 
     @ApiOperation("更新研制状态与进展信息")
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public Result<?> updateDevelopmentStatus(@PathVariable Long id, @RequestBody DevelopmentStatusDTO statusDTO) {
         // 管理员操作
         // 实现更新研制状态与进展信息的逻辑
