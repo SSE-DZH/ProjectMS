@@ -53,7 +53,7 @@ public class AdminController {
 
     @ApiOperation("根据ID获取管理员")
     @GetMapping("/{id}")
-    public Result<Admin> getAdminById(@PathVariable Integer id) {
+    public Result<Admin> getAdminById(@PathVariable Long id) {
         Admin admin = adminService.getById(id);
         if (admin == null) {
             return Result.error("Admin not found");
@@ -81,7 +81,7 @@ public class AdminController {
     @ApiOperation("删除管理员")
     @DeleteMapping("/{id}")
     @Transactional
-    public Result<?> deleteAdmin(@PathVariable Integer id) {
+    public Result<?> deleteAdmin(@PathVariable Long id) {
         boolean removed = adminService.removeById(id);
         if (!removed) {
             return Result.error("Admin not found");

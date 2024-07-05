@@ -82,7 +82,7 @@ public class ProjectsController {
     @ApiOperation("删除项目")
     @DeleteMapping("/{id}")
     @Transactional
-    public Result<?> deleteAdmin(@PathVariable Integer id) {
+    public Result<?> deleteAdmin(@PathVariable Long id) {
         boolean removed = projectsService.removeById(id);
         if (!removed) {
             return Result.error("Admin not found");

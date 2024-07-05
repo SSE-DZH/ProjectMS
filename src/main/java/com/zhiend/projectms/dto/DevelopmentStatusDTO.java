@@ -28,7 +28,7 @@ public class DevelopmentStatusDTO implements Serializable {
     /**
      * 项目ID
      */
-    private Integer projectId;
+    private Long projectId;
 
     /**
      * 当前状态，改为枚举类型

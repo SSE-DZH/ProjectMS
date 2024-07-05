@@ -43,7 +43,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     @Transactional
-    public void updateAdmin(Long id, UserDTO userDTO) {
+    public void updateUser(Long id, UserDTO userDTO) {
         User admin = this.getById(id);
         if (admin != null) {
             BeanUtils.copyProperties(userDTO, admin);

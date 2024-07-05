@@ -28,22 +28,22 @@ public class ModuleQuantities implements Serializable {
      * 主键，自增
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 项目ID
      */
-    private Integer projectId;
+    private Long projectId;
 
     /**
      * 硬件数量
      */
-    private Integer hardwareQuantity;
+    private Long hardwareQuantity;
 
     /**
      * 软件数量
      */
-    private Integer softwareQuantity;
+    private Long softwareQuantity;
 
 
 }

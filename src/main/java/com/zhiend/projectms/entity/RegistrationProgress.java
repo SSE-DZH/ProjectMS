@@ -29,12 +29,12 @@ public class RegistrationProgress implements Serializable {
      * 主键，自增
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 项目ID
      */
-    private Integer projectId;
+    private Long projectId;
 
     /**
      * 注册类型

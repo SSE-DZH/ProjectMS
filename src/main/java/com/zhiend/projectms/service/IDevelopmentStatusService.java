@@ -17,9 +17,11 @@ public interface IDevelopmentStatusService extends IService<DevelopmentStatus> {
 
     BackPage<DevelopmentStatus> listByBackPage(Long pageNo, Long pageSize);
 
-    boolean isProjectIdExists(Integer projectId);
+    boolean isProjectIdExists(Long projectId);
 
     void addStatus(DevelopmentStatusDTO statusDTO);
 
     void updateProject(Long id, DevelopmentStatusDTO statusDTO);
+
+    DevelopmentStatus getByPorjectId(Long projectId);
 }

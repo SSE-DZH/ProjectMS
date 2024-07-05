@@ -1,5 +1,6 @@
 package com.zhiend.projectms.service;
 
+import com.zhiend.projectms.dto.ModuleQuantitiesDTO;
 import com.zhiend.projectms.entity.ModuleQuantities;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IModuleQuantitiesService extends IService<ModuleQuantities> {
 
+    ModuleQuantities getModuleQuantities(Long projectId);
+
+    boolean isProjectIdExists(Long projectId);
+
+    void addStatus(ModuleQuantitiesDTO moduleQuantitiesDTO);
+
+    void updateProject(Long id, ModuleQuantitiesDTO moduleQuantitiesDTO);
 }

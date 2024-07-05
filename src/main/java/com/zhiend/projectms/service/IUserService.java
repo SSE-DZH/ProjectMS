@@ -20,5 +20,5 @@ public interface IUserService extends IService<User> {
 
     BackPage<User> listByBackPage(Long pageNo, Long pageSize);
 
-    void updateAdmin(Long id, UserDTO userDTO);
+    void updateUser(Long id, UserDTO userDTO);
 }

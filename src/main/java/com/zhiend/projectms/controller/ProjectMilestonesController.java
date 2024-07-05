@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/project-milestones")
-public class ProjectMilestonesController {、
+public class ProjectMilestonesController {
     @Autowired
     private IProjectMilestonesService projectMilestonesService;
 

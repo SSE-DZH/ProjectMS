@@ -61,7 +61,7 @@ public class UserController {
 
     @ApiOperation(value = "根据ID获取用户")
     @GetMapping("/{id}")
-    public Result<User> getUserById(@PathVariable Integer id) {
+    public Result<User> getUserById(@PathVariable Long id) {
         User user = userService.getById(id);
         if (user == null) {
             return Result.error("User not found");
@@ -79,8 +79,8 @@ public class UserController {
         }
 
         try {
-            userService.updateAdmin(id, userDTO);
-            return Result.success("Admin updated successfully");
+            userService.updateUser(id, userDTO);
+            return Result.success("User updated successfully");
         } catch (Exception e) {
             return Result.error("An error occurred: " + e.getMessage());
         }
@@ -89,7 +89,7 @@ public class UserController {
     @ApiOperation(value = "删除用户")
     @DeleteMapping("/{id}")
     @Transactional
-    public Result<?> deleteUser(@PathVariable Integer id) {
+    public Result<?> deleteUser(@PathVariable Long id) {
         boolean removed = userService.removeById(id);
         if (!removed) {
             return Result.error("User not found");

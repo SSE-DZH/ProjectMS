@@ -8,6 +8,7 @@ import com.zhiend.projectms.page.BackPage;
 import com.zhiend.projectms.result.Result;
 import com.zhiend.projectms.service.IDevelopmentStatusService;
 import com.zhiend.projectms.service.IProjectsService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/development-status")
+@Api(tags = "研制状态与进展管理")
 public class DevelopmentStatusController {
     @Autowired
     private IDevelopmentStatusService developmentStatusService;
@@ -41,6 +43,16 @@ public class DevelopmentStatusController {
         return Result.success(list);
     }
 
+    @ApiOperation("根据项目id获取项目进展状态信息")
+    @GetMapping("/{projectId}")
+    public Result<?> getDevelopmentStatusByProjectId(@PathVariable Long projectId) {
+        // 普通用户查看功能
+        // 实现根据项目 id 获取项目进展状态信息的逻辑
+        // developmentStatusService.getById(id);
+        DevelopmentStatus developmentStatus = developmentStatusService.getByPorjectId(projectId);
+        return Result.success(developmentStatus);
+    }
+
 
     @ApiOperation("根据状态id获取项目详细信息")
     @GetMapping("/{id}")
@@ -55,7 +67,7 @@ public class DevelopmentStatusController {
     @ApiOperation("添加研制状态与进展信息")
     @PostMapping("/add")
     public Result<?> addDevelopmentStatus(@RequestBody DevelopmentStatusDTO statusDTO) {
-        // 检查项目名称是否已存在
+        // 检查项目id是否已存在
         if (developmentStatusService.isProjectIdExists(statusDTO.getProjectId())) {
             return Result.error("项目状态已存在，不能重复添加");
         }
