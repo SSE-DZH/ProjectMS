@@ -26,7 +26,7 @@ public class ModuleQuantitiesController {
     private IModuleQuantitiesService moduleQuantitiesService;
 
     @ApiOperation("根据project_id获取模块化数量信息")
-    @GetMapping("/{id}")
+    @GetMapping("/{projectId}")
     public Result<?> getModuleQuantities(@PathVariable Long projectId) {
         return Result.success(moduleQuantitiesService.getModuleQuantities(projectId));
     }

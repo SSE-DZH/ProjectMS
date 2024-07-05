@@ -1,15 +1,14 @@
 package com.zhiend.projectms.controller;
 
 
+import com.zhiend.projectms.dto.RegistrationProgressDTO;
 import com.zhiend.projectms.result.Result;
 import com.zhiend.projectms.service.IRegistrationProgressService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -21,16 +20,52 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/registration-progress")
+@Api(tags = "注册进度管理")
 public class RegistrationProgressController {
     @Autowired
     private IRegistrationProgressService registrationProgressService;
 
-    @ApiOperation("获取注册进度信息")
-    @GetMapping("/{id}")
-    public Result<?> getRegistrationProgress(@PathVariable Long id) {
-        // 普通用户查看功能
-        // 实现根据 id 获取注册进度信息的逻辑
-        // registrationProgressService.getById(id);
-        return Result.success("Get registration progress by id: " + id);
+    @ApiOperation("根据projectId获取项目注册进度")
+    @GetMapping("/{projectId}")
+    public Result<?> getRegistrationProgress(@PathVariable Long projectId) {
+        return Result.success(registrationProgressService.getProjectMilestones(projectId));
+    }
+
+    @ApiOperation("添加项目注册进度")
+    @PostMapping("/add")
+    public Result<?> add(@RequestBody RegistrationProgressDTO RegistrationProgressDTO) {
+        // 检查项目id是否已存在
+        if (registrationProgressService.isProjectIdExists(RegistrationProgressDTO.getProjectId())) {
+            return Result.error("项目注册进度已存在，不能重复添加");
+        }
+
+        // 执行添加操作
+        registrationProgressService.add(RegistrationProgressDTO);
+        return Result.success("项目注册进度添加成功");
+    }
+
+    @ApiOperation("更新项目注册进度")
+    @PutMapping("/{id}")
+    public Result<?> update(@PathVariable Long id, @RequestBody RegistrationProgressDTO RegistrationProgressDTO) {
+        // 管理员操作
+        try {
+            registrationProgressService.updateProject(id, RegistrationProgressDTO);
+            return Result.success("项目注册进度更新成功");
+        } catch (Exception e) {
+            return Result.error("项目注册进度更新失败：" + e.getMessage());
+        }
+    }
+
+    @ApiOperation("删除项目注册进度")
+    @DeleteMapping("/{id}")
+    @Transactional
+    public Result<?> delete(@PathVariable Long id) {
+        // 管理员操作
+        try {
+            registrationProgressService.removeById(id);
+            return Result.success("项目注册进度删除成功");
+        } catch (Exception e) {
+            return Result.error("项目注册进度删除失败：" + e.getMessage());
+        }
     }
 }

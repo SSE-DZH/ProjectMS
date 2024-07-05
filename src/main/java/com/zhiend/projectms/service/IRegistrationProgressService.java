@@ -1,5 +1,6 @@
 package com.zhiend.projectms.service;
 
+import com.zhiend.projectms.dto.RegistrationProgressDTO;
 import com.zhiend.projectms.entity.RegistrationProgress;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IRegistrationProgressService extends IService<RegistrationProgress> {
 
+    RegistrationProgress getProjectMilestones(Long projectId);
+
+    boolean isProjectIdExists(Long projectId);
+
+    void add(RegistrationProgressDTO registrationProgressDTO);
+
+    void updateProject(Long id, RegistrationProgressDTO registrationProgressDTO);
 }

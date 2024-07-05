@@ -26,7 +26,7 @@ public class ProjectMilestonesController {
     private IProjectMilestonesService projectMilestonesService;
 
     @ApiOperation("根据projectId获取项目节点")
-    @GetMapping("/{id}")
+    @GetMapping("/{projectId}")
     public Result<?> getProjectMilestones(@PathVariable Long projectId) {
         return Result.success(projectMilestonesService.getProjectMilestones(projectId));
     }
