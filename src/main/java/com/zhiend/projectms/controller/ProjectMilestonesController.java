@@ -45,11 +45,11 @@ public class ProjectMilestonesController {
     }
 
     @ApiOperation("更新项目节点")
-    @PutMapping("/{id}")
-    public Result<?> update(@PathVariable Long id, @RequestBody ProjectMilestonesDTO ProjectMilestonesDTO) {
+    @PutMapping("/update")
+    public Result<?> update(@RequestBody ProjectMilestonesDTO ProjectMilestonesDTO) {
         // 管理员操作
         try {
-            projectMilestonesService.updateProject(id, ProjectMilestonesDTO);
+            projectMilestonesService.updateProject(ProjectMilestonesDTO);
             return Result.success("项目节点更新成功");
         } catch (Exception e) {
             return Result.error("项目节点更新失败：" + e.getMessage());
