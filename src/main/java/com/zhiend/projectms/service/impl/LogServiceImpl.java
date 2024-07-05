@@ -8,6 +8,10 @@ import com.zhiend.projectms.service.ILogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -29,17 +33,20 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log> implements ILogS
         this.save(log);
     }
 
-    @Override
-    public Log getLogByProjectId(Long projectId) {
-        QueryWrapper<Log> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("project_id", projectId);
-        return this.getOne(queryWrapper);
-    }
 
     @Override
+    @Transactional
     public void deleteLogByProjectId(Long projectId) {
         QueryWrapper<Log> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("project_id", projectId);
         this.remove(queryWrapper);
     }
+
+    @Override
+    public List<Log> getLogByProjectId(Long projectId) {
+        QueryWrapper<Log> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("project_id", projectId);
+        return this.list(queryWrapper);
+    }
+
 }

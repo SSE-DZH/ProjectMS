@@ -1,16 +1,19 @@
 package com.zhiend.projectms.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zhiend.projectms.dto.DevelopmentStatusDTO;
+import com.zhiend.projectms.dto.LogDTO;
 import com.zhiend.projectms.entity.DevelopmentStatus;
+import com.zhiend.projectms.entity.ModuleQuantities;
 import com.zhiend.projectms.mapper.DevelopmentStatusMapper;
 import com.zhiend.projectms.page.BackPage;
 import com.zhiend.projectms.service.IDevelopmentStatusService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zhiend.projectms.service.ILogService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class DevelopmentStatusServiceImpl extends ServiceImpl<DevelopmentStatusMapper, DevelopmentStatus> implements IDevelopmentStatusService {
 
+    @Autowired
+    private ILogService logService;
     @Override
     public BackPage<DevelopmentStatus> listByBackPage(Long pageNo, Long pageSize) {
         BackPage<DevelopmentStatus> DevelopmentStatusBackPage = new BackPage<>();
@@ -57,17 +62,40 @@ public class DevelopmentStatusServiceImpl extends ServiceImpl<DevelopmentStatusM
         status.setCurrentStatus(statusDTO.getCurrentStatus());
         status.setThisWeekProgress(statusDTO.getThisWeekProgress());
         save(status);
+
+        //添加日志
+        LogDTO logDTO = LogDTO.builder()
+                .projectId(statusDTO.getProjectId())
+                .currentStatus(statusDTO.getCurrentStatus())
+                .completionThisWeek(statusDTO.getThisWeekProgress())
+                .build();
+        logService.addLog(logDTO);
     }
 
     @Override
     @Transactional
-    public void updateProject(Long id, DevelopmentStatusDTO statusDTO) {
-        DevelopmentStatus status = new DevelopmentStatus();
-        BeanUtils.copyProperties(statusDTO, status);
-        status.setCurrentStatus(statusDTO.getCurrentStatus());
-        status.setThisWeekProgress(statusDTO.getThisWeekProgress());
-        status.setId(id);
-        updateById(status);
+    public void updateProject(DevelopmentStatusDTO statusDTO) {
+        // 根据 projectId 查找项目状态进展信息
+        QueryWrapper<DevelopmentStatus> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("project_id", statusDTO.getProjectId());
+        DevelopmentStatus developmentStatus = getOne(queryWrapper);
+
+        if (developmentStatus != null) {
+            // 复制属性到现有对象
+            BeanUtils.copyProperties(statusDTO, developmentStatus);
+            // 更新对象
+            updateById(developmentStatus);
+        } else {
+            throw new RuntimeException("项目状态不存在，无法更新");
+        }
+
+        //添加日志
+        LogDTO logDTO = LogDTO.builder()
+                .projectId(statusDTO.getProjectId())
+                .currentStatus(statusDTO.getCurrentStatus())
+                .completionThisWeek(statusDTO.getThisWeekProgress())
+                .build();
+        logService.addLog(logDTO);
     }
 
     @Override

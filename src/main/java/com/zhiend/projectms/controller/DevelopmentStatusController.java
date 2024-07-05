@@ -91,12 +91,12 @@ public class DevelopmentStatusController {
     }
 
     @ApiOperation("更新研制状态与进展信息")
-    @PutMapping("/update/{id}")
-    public Result<?> updateDevelopmentStatus(@PathVariable Long id, @RequestBody DevelopmentStatusDTO statusDTO) {
+    @PutMapping("/update")
+    public Result<?> updateDevelopmentStatus(@RequestBody DevelopmentStatusDTO statusDTO) {
         // 管理员操作
         // 实现更新研制状态与进展信息的逻辑
         try {
-            developmentStatusService.updateProject(id, statusDTO);
+            developmentStatusService.updateProject(statusDTO);
             return Result.success("项目状态信息更新成功");
         } catch (Exception e) {
             return Result.error("项目状态信息更新失败：" + e.getMessage());

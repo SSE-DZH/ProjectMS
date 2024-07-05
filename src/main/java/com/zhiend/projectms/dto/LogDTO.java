@@ -2,8 +2,10 @@ package com.zhiend.projectms.dto;
 
 import com.zhiend.projectms.enums.ProgressEnum;
 import com.zhiend.projectms.enums.StatusEnum;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -18,6 +20,8 @@ import java.time.LocalDateTime;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LogDTO implements Serializable {
 
 

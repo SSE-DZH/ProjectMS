@@ -5,8 +5,13 @@ import com.zhiend.projectms.dto.LogDTO;
 import com.zhiend.projectms.entity.Log;
 import com.zhiend.projectms.result.Result;
 import com.zhiend.projectms.service.ILogService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/log")
+@Api(tags = "项目状态日志管理")
 public class LogController {
 
     @Autowired
@@ -25,6 +31,7 @@ public class LogController {
 
     //日志记录
     @PostMapping("/add")
+    @ApiOperation("添加日志记录")
     public Result<?> addLog(LogDTO logDTO) {
         logService.addLog(logDTO);
         return Result.success();
@@ -32,9 +39,10 @@ public class LogController {
 
     //根据projectid查看日志
     @GetMapping("/{projectId}")
-    public Result<Log> getLogByProjectId(@PathVariable Long projectId) {
-        Log log =  logService.getLogByProjectId(projectId);
-        return Result.success(log);
+    @ApiOperation("根据项目id获取日志信息")
+    public Result<List<Log>> getLogByProjectId(@PathVariable Long projectId) {
+        List<Log> logs =  logService.getLogByProjectId(projectId);
+        return Result.success(logs);
     }
 
 }

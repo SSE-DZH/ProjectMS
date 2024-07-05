@@ -33,7 +33,7 @@ server:
 knife4j:
   enable: true
   openapi:
-    title: 项目理接口文档
+    title: 项目管理接口文档
     description: "项目管理接口文档"
     email: sse_d@qq.com
     concat: zhiend

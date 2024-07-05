@@ -21,7 +21,7 @@ public interface IDevelopmentStatusService extends IService<DevelopmentStatus> {
 
     void addStatus(DevelopmentStatusDTO statusDTO);
 
-    void updateProject(Long id, DevelopmentStatusDTO statusDTO);
+    void updateProject(DevelopmentStatusDTO statusDTO);
 
     DevelopmentStatus getByPorjectId(Long projectId);
 
