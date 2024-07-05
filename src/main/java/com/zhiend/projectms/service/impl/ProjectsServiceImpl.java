@@ -12,6 +12,7 @@ import com.zhiend.projectms.page.BackPage;
 import com.zhiend.projectms.service.IProjectsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ProjectsServiceImpl extends ServiceImpl<ProjectsMapper, Projects> implements IProjectsService {
-
+    @Autowired
+    private ProjectsMapper projectsMapper;
     @Override
     public BackPage<Projects> listByBackPage(Long pageNo, Long pageSize) {
         BackPage<Projects> ProjectsBackPage = new BackPage<>();
@@ -90,8 +92,8 @@ public class ProjectsServiceImpl extends ServiceImpl<ProjectsMapper, Projects> i
     public void updateProject(Long id, ProjectsDTO projectsDTO) {
         Projects project = getById(id);
         if (project != null) {
-            // 检查项目名称是否已存在
-            if (!projectsDTO.getProductName().equals(project.getProductName()) && isProjectNameExists(projectsDTO.getProductName())) {
+            // 检查项目名称是否已存在，但排除当前项目的名称
+            if (!projectsDTO.getProductName().equals(project.getProductName()) && isProjectNameExistsExceptCurrent(projectsDTO.getProductName(), id)) {
                 throw new RuntimeException("项目名称已存在，无法更新");
             }
             BeanUtils.copyProperties(projectsDTO, project);
@@ -102,5 +104,21 @@ public class ProjectsServiceImpl extends ServiceImpl<ProjectsMapper, Projects> i
             throw new RuntimeException("项目不存在，无法更新");
         }
     }
+
+    /**
+     * 检查项目名称是否存在，排除当前项目的名称
+     *
+     * @param projectName 项目名称
+     * @param projectId 当前项目ID
+     * @return 如果名称存在返回true，否则返回false
+     */
+    private boolean isProjectNameExistsExceptCurrent(String projectName, Long projectId) {
+        return projectsMapper.selectCount(
+                new QueryWrapper<Projects>()
+                        .eq("product_name", projectName)
+                        .ne("id", projectId)
+        ) > 0;
+    }
+
 
 }

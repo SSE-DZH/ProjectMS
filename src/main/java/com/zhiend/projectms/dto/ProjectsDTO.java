@@ -20,7 +20,6 @@ public class ProjectsDTO {
     private Integer projectScore;
     private Integer workload;
     private Integer projectDuration;
-    @TableField(typeHandler = EnumTypeHandler.class)
     private StatusEnum currentStatus;
 
     // Constructors, getters, setters, and other methods as needed
