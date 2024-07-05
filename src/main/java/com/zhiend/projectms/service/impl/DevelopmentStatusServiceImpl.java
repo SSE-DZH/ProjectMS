@@ -45,7 +45,7 @@ public class DevelopmentStatusServiceImpl extends ServiceImpl<DevelopmentStatusM
     @Override
     public boolean isProjectIdExists(Long projectId) {
         QueryWrapper<DevelopmentStatus> wrapper = new QueryWrapper<>();
-        wrapper.eq("product_id", projectId);
+        wrapper.eq("project_id", projectId);
         return count(wrapper) > 0;
     }
 
@@ -72,6 +72,6 @@ public class DevelopmentStatusServiceImpl extends ServiceImpl<DevelopmentStatusM
 
     @Override
     public DevelopmentStatus getByPorjectId(Long projectId) {
-        return getOne(new QueryWrapper<DevelopmentStatus>().eq("product_id", projectId));
+        return getOne(new QueryWrapper<DevelopmentStatus>().eq("project_id", projectId));
     }
 }

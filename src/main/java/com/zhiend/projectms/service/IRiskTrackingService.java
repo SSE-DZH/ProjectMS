@@ -1,5 +1,6 @@
 package com.zhiend.projectms.service;
 
+import com.zhiend.projectms.dto.RiskTrackingDTO;
 import com.zhiend.projectms.entity.RiskTracking;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IRiskTrackingService extends IService<RiskTracking> {
 
+    RiskTracking getProjectMilestones(Long projectId);
+
+    boolean isProjectIdExists(Long projectId);
+
+    void add(RiskTrackingDTO riskTrackingDTO);
+
+    void updateProject(Long id, RiskTrackingDTO riskTrackingDTO);
 }

@@ -1,15 +1,13 @@
 package com.zhiend.projectms.controller;
 
 
+import com.zhiend.projectms.dto.RiskTrackingDTO;
 import com.zhiend.projectms.result.Result;
 import com.zhiend.projectms.service.IRiskTrackingService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -25,12 +23,47 @@ public class RiskTrackingController {
     @Autowired
     private IRiskTrackingService riskTrackingService;
 
-    @ApiOperation("获取风险跟踪与解决信息")
-    @GetMapping("/{id}")
-    public Result<?> getRiskTracking(@PathVariable Long id) {
-        // 普通用户查看功能
-        // 实现根据 id 获取风险跟踪与解决信息的逻辑
-        // riskTrackingService.getById(id);
-        return Result.success("Get risk tracking by id: " + id);
+    @ApiOperation("根据projectId获取项目风险跟踪")
+    @GetMapping("/{projectId}")
+    public Result<?> getRegistrationProgress(@PathVariable Long projectId) {
+        return Result.success(riskTrackingService.getProjectMilestones(projectId));
+    }
+
+    @ApiOperation("添加项目风险跟踪")
+    @PostMapping("/add")
+    public Result<?> add(@RequestBody RiskTrackingDTO RiskTrackingDTO) {
+        // 检查项目id是否已存在
+        if (riskTrackingService.isProjectIdExists(RiskTrackingDTO.getProjectId())) {
+            return Result.error("项目风险跟踪已存在，不能重复添加");
+        }
+
+        // 执行添加操作
+        riskTrackingService.add(RiskTrackingDTO);
+        return Result.success("项目风险跟踪添加成功");
+    }
+
+    @ApiOperation("更新项目风险跟踪")
+    @PutMapping("/{id}")
+    public Result<?> update(@PathVariable Long id, @RequestBody RiskTrackingDTO RiskTrackingDTO) {
+        // 管理员操作
+        try {
+            riskTrackingService.updateProject(id, RiskTrackingDTO);
+            return Result.success("项目风险跟踪更新成功");
+        } catch (Exception e) {
+            return Result.error("项目风险跟踪更新失败：" + e.getMessage());
+        }
+    }
+
+    @ApiOperation("删除项目风险跟踪")
+    @DeleteMapping("/{id}")
+    @Transactional
+    public Result<?> delete(@PathVariable Long id) {
+        // 管理员操作
+        try {
+            riskTrackingService.removeById(id);
+            return Result.success("项目风险跟踪删除成功");
+        } catch (Exception e) {
+            return Result.error("项目风险跟踪删除失败：" + e.getMessage());
+        }
     }
 }

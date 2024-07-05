@@ -22,12 +22,12 @@ public class RegistrationProgressServiceImpl extends ServiceImpl<RegistrationPro
 
     @Override
     public RegistrationProgress getProjectMilestones(Long projectId) {
-        return getOne(new QueryWrapper<RegistrationProgress>().eq("projectId", projectId));
+        return getOne(new QueryWrapper<RegistrationProgress>().eq("project_id", projectId));
     }
 
     @Override
     public boolean isProjectIdExists(Long projectId) {
-        return count(new QueryWrapper<RegistrationProgress>().eq("projectId", projectId)) > 0;
+        return count(new QueryWrapper<RegistrationProgress>().eq("project_id", projectId)) > 0;
     }
 
     @Override
