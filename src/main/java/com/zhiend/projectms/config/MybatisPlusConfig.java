@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 //Spring boot方式
 @Configuration
-@MapperScan("com.zhiend.netflix.mapper")
+@MapperScan("com.zhiend.projectms.mapper")
 public class MybatisPlusConfig {
 
     // 旧版
