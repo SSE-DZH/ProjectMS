@@ -35,7 +35,6 @@ public class Projects implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-
     /**
      * 产品名称
      */
@@ -94,7 +93,6 @@ public class Projects implements Serializable {
     /**
      * 当前状态
      */
-    @TableField(typeHandler = EnumTypeHandler.class)
     private StatusEnum currentStatus;
 
 

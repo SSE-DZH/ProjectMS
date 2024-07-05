@@ -33,13 +33,11 @@ public class DevelopmentStatusDTO implements Serializable {
     /**
      * 当前状态，改为枚举类型
      */
-    @TableField(typeHandler = EnumTypeHandler.class)
     private StatusEnum currentStatus;
 
     /**
      * 本周完成情况，改为枚举类型
      */
-    @TableField(typeHandler = EnumTypeHandler.class)
     private ProgressEnum thisWeekProgress;
 
     /**

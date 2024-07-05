@@ -46,7 +46,6 @@ public class RiskTrackingDTO implements Serializable {
     /**
      * 当前进度
      */
-    @TableField(typeHandler = EnumTypeHandler.class)
     private ProgressEnum currentProgress;
 
 

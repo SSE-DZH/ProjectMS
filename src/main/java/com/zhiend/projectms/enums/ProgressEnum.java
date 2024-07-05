@@ -1,18 +1,31 @@
 package com.zhiend.projectms.enums;
 
-public enum ProgressEnum {
-    COMPLETED("已完成"),
-    NORMAL("正常"),
-    NOT_STARTED("未启动"),
-    DELAYED("延误");
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-    private final String progress;
+public enum ProgressEnum implements BaseEnum{
+    COMPLETED(0, "已完成"),
+    NORMAL(1, "正常"),
+    NOT_STARTED(2, "未启动"),
+    DELAYED(3, "延误");
 
-    ProgressEnum(String progress) {
-        this.progress = progress;
+    private Integer code;
+
+    private String leble;//枚举文本
+
+    ProgressEnum(Integer code, String leble) {
+        this.code = code;
+        this.leble = leble;
     }
 
-    public String getProgress() {
-        return progress;
+    @Override
+    public Integer getCode() {
+        return code;
+    }
+
+    @Override
+    public String getLabel() {
+        return leble;
     }
 }

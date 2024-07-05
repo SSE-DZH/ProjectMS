@@ -4,6 +4,7 @@ package com.zhiend.projectms.controller;
 import com.zhiend.projectms.dto.RiskTrackingDTO;
 import com.zhiend.projectms.result.Result;
 import com.zhiend.projectms.service.IRiskTrackingService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/risk-tracking")
+@Api(tags = "风险跟踪与解决管理")
 public class RiskTrackingController {
     @Autowired
     private IRiskTrackingService riskTrackingService;
