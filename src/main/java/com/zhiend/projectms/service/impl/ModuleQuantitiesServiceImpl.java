@@ -8,6 +8,7 @@ import com.zhiend.projectms.service.IModuleQuantitiesService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -31,6 +32,7 @@ public class ModuleQuantitiesServiceImpl extends ServiceImpl<ModuleQuantitiesMap
     }
 
     @Override
+    @Transactional
     public void addStatus(ModuleQuantitiesDTO moduleQuantitiesDTO) {
         ModuleQuantities moduleQuantities = new ModuleQuantities();
         BeanUtils.copyProperties(moduleQuantitiesDTO, moduleQuantities);
@@ -38,10 +40,21 @@ public class ModuleQuantitiesServiceImpl extends ServiceImpl<ModuleQuantitiesMap
     }
 
     @Override
-    public void updateProject(Long id, ModuleQuantitiesDTO moduleQuantitiesDTO) {
-        ModuleQuantities moduleQuantities = new ModuleQuantities();
-        BeanUtils.copyProperties(moduleQuantitiesDTO, moduleQuantities);
-        moduleQuantities.setId(id);
-        updateById(moduleQuantities);
+    @Transactional
+    public void updateProject(ModuleQuantitiesDTO moduleQuantitiesDTO) {
+        // 根据 projectId 查找模块化数量信息
+        QueryWrapper<ModuleQuantities> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("project_id", moduleQuantitiesDTO.getProjectId());
+        ModuleQuantities existingModuleQuantities = getOne(queryWrapper);
+
+        if (existingModuleQuantities != null) {
+            // 复制属性到现有对象
+            BeanUtils.copyProperties(moduleQuantitiesDTO, existingModuleQuantities);
+            // 更新对象
+            updateById(existingModuleQuantities);
+        } else {
+            throw new RuntimeException("模块化数量信息不存在，无法更新");
+        }
     }
+
 }

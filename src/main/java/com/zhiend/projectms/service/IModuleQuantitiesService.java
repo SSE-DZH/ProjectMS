@@ -20,5 +20,5 @@ public interface IModuleQuantitiesService extends IService<ModuleQuantities> {
 
     void addStatus(ModuleQuantitiesDTO moduleQuantitiesDTO);
 
-    void updateProject(Long id, ModuleQuantitiesDTO moduleQuantitiesDTO);
+    void updateProject(ModuleQuantitiesDTO moduleQuantitiesDTO);
 }

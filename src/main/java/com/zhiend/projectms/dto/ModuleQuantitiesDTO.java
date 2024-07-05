@@ -23,12 +23,12 @@ public class ModuleQuantitiesDTO implements Serializable {
     /**
      * 硬件数量
      */
-    private Integer hardwareQuantity;
+    private Long hardwareQuantity;
 
     /**
      * 软件数量
      */
-    private Integer softwareQuantity;
+    private Long softwareQuantity;
 
 
 }
