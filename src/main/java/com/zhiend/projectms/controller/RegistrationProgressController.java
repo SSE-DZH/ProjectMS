@@ -45,11 +45,11 @@ public class RegistrationProgressController {
     }
 
     @ApiOperation("更新项目注册进度")
-    @PutMapping("/{id}")
-    public Result<?> update(@PathVariable Long id, @RequestBody RegistrationProgressDTO RegistrationProgressDTO) {
+    @PutMapping("/update")
+    public Result<?> update(@RequestBody RegistrationProgressDTO RegistrationProgressDTO) {
         // 管理员操作
         try {
-            registrationProgressService.updateProject(id, RegistrationProgressDTO);
+            registrationProgressService.updateProject(RegistrationProgressDTO);
             return Result.success("项目注册进度更新成功");
         } catch (Exception e) {
             return Result.error("项目注册进度更新失败：" + e.getMessage());

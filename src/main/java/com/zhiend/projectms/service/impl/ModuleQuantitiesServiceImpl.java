@@ -53,7 +53,7 @@ public class ModuleQuantitiesServiceImpl extends ServiceImpl<ModuleQuantitiesMap
             // 更新对象
             updateById(existingModuleQuantities);
         } else {
-            throw new RuntimeException("模块化数量信息不存在，无法更新");
+            throw new RuntimeException("项目注册进度不存在，无法更新");
         }
     }
 
