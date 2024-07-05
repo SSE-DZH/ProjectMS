@@ -45,11 +45,11 @@ public class RiskTrackingController {
     }
 
     @ApiOperation("更新项目风险跟踪")
-    @PutMapping("/{id}")
-    public Result<?> update(@PathVariable Long id, @RequestBody RiskTrackingDTO RiskTrackingDTO) {
+    @PutMapping("/update")
+    public Result<?> update(@RequestBody RiskTrackingDTO RiskTrackingDTO) {
         // 管理员操作
         try {
-            riskTrackingService.updateProject(id, RiskTrackingDTO);
+            riskTrackingService.updateProject(RiskTrackingDTO);
             return Result.success("项目风险跟踪更新成功");
         } catch (Exception e) {
             return Result.error("项目风险跟踪更新失败：" + e.getMessage());

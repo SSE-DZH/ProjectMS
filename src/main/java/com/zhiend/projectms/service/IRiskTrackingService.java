@@ -20,5 +20,5 @@ public interface IRiskTrackingService extends IService<RiskTracking> {
 
     void add(RiskTrackingDTO riskTrackingDTO);
 
-    void updateProject(Long id, RiskTrackingDTO riskTrackingDTO);
+    void updateProject(RiskTrackingDTO riskTrackingDTO);
 }
