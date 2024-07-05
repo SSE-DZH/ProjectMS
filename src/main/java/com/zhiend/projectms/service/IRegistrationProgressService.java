@@ -21,4 +21,6 @@ public interface IRegistrationProgressService extends IService<RegistrationProgr
     void add(RegistrationProgressDTO registrationProgressDTO);
 
     void updateProject(RegistrationProgressDTO registrationProgressDTO);
+
+    void deleteByProjectId(Long id);
 }

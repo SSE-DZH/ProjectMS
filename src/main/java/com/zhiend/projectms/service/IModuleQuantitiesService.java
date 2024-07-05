@@ -21,4 +21,7 @@ public interface IModuleQuantitiesService extends IService<ModuleQuantities> {
     void addStatus(ModuleQuantitiesDTO moduleQuantitiesDTO);
 
     void updateProject(ModuleQuantitiesDTO moduleQuantitiesDTO);
+
+    //根据projectid删除
+    void deleteByProjectId(Long projectId);
 }

@@ -23,4 +23,6 @@ public interface IProjectsService extends IService<Projects> {
     void addProject(ProjectsDTO projectsDTO);
     boolean isProjectNameExists(String projectName);
     void updateProject(Long id, ProjectsDTO projectsDTO);
+
+    boolean removeAllById(Long id);
 }

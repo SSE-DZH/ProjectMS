@@ -57,4 +57,9 @@ public class ModuleQuantitiesServiceImpl extends ServiceImpl<ModuleQuantitiesMap
         }
     }
 
+    @Override
+    public void deleteByProjectId(Long projectId) {
+        remove(new QueryWrapper<ModuleQuantities>().eq("project_id", projectId));
+    }
+
 }

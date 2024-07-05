@@ -57,4 +57,9 @@ public class RiskTrackingServiceImpl extends ServiceImpl<RiskTrackingMapper, Ris
             throw new RuntimeException("项目不存在，无法更新");
         }
     }
+
+    @Override
+    public void deleteByProjectId(Long id) {
+        remove(new QueryWrapper<RiskTracking>().eq("project_id", id));
+    }
 }

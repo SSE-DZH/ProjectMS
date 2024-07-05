@@ -21,4 +21,6 @@ public interface IProjectMilestonesService extends IService<ProjectMilestones> {
     void addProjectMilestones(ProjectMilestonesDTO projectMilestonesDTO);
 
     void updateProject(ProjectMilestonesDTO projectMilestonesDTO);
+
+    void deleteByProjectId(Long id);
 }

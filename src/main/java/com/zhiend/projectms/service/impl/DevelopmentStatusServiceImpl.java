@@ -74,4 +74,9 @@ public class DevelopmentStatusServiceImpl extends ServiceImpl<DevelopmentStatusM
     public DevelopmentStatus getByPorjectId(Long projectId) {
         return getOne(new QueryWrapper<DevelopmentStatus>().eq("project_id", projectId));
     }
+
+    @Override
+    public void deleteByProjectId(Long projectId) {
+        remove(new QueryWrapper<DevelopmentStatus>().eq("project_id", projectId));
+    }
 }

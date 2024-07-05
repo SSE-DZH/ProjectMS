@@ -5,11 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zhiend.projectms.dto.ProjectsDTO;
 import com.zhiend.projectms.entity.Projects;
-import com.zhiend.projectms.entity.Projects;
-import com.zhiend.projectms.enums.StatusEnum;
 import com.zhiend.projectms.mapper.ProjectsMapper;
 import com.zhiend.projectms.page.BackPage;
-import com.zhiend.projectms.service.IProjectsService;
+import com.zhiend.projectms.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +30,25 @@ import java.util.stream.Collectors;
 public class ProjectsServiceImpl extends ServiceImpl<ProjectsMapper, Projects> implements IProjectsService {
     @Autowired
     private ProjectsMapper projectsMapper;
+
+    @Autowired
+    private IDevelopmentStatusService developmentStatusService;
+
+    @Autowired
+    private IModuleQuantitiesService moduleQuantitiesService;
+
+    @Autowired
+    private ILogService logService;
+
+    @Autowired
+    private IRegistrationProgressService registrationProgressService;
+
+    @Autowired
+    private IRiskTrackingService riskService;
+
+    @Autowired
+    private IProjectMilestonesService projectMilestonesService;
+
     @Override
     public BackPage<Projects> listByBackPage(Long pageNo, Long pageSize) {
         BackPage<Projects> ProjectsBackPage = new BackPage<>();
@@ -103,6 +120,18 @@ public class ProjectsServiceImpl extends ServiceImpl<ProjectsMapper, Projects> i
         } else {
             throw new RuntimeException("项目不存在，无法更新");
         }
+    }
+
+    @Override
+    @Transactional
+    public boolean removeAllById(Long id) {
+        logService.deleteLogByProjectId(id);
+        developmentStatusService.deleteByProjectId(id);
+        moduleQuantitiesService.deleteByProjectId(id);
+        registrationProgressService.deleteByProjectId(id);
+        projectMilestonesService.deleteByProjectId(id);
+        riskService.deleteByProjectId(id);
+        return removeById(id);
     }
 
     /**

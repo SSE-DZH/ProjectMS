@@ -24,4 +24,7 @@ public interface IDevelopmentStatusService extends IService<DevelopmentStatus> {
     void updateProject(Long id, DevelopmentStatusDTO statusDTO);
 
     DevelopmentStatus getByPorjectId(Long projectId);
+
+    //根据projectid删除
+    void deleteByProjectId(Long projectId);
 }

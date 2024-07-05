@@ -83,10 +83,10 @@ public class ProjectsController {
     @DeleteMapping("/{id}")
     @Transactional
     public Result<?> deleteAdmin(@PathVariable Long id) {
-        boolean removed = projectsService.removeById(id);
+        boolean removed = projectsService.removeAllById(id);
         if (!removed) {
-            return Result.error("Admin not found");
+            return Result.error("项目信息没有发现");
         }
-        return Result.success("Admin deleted successfully");
+        return Result.success("项目信息删除成功！");
     }
 }

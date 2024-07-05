@@ -56,4 +56,9 @@ public class ProjectMilestonesServiceImpl extends ServiceImpl<ProjectMilestonesM
             throw new RuntimeException("项目不存在，无法更新");
         }
     }
+
+    @Override
+    public void deleteByProjectId(Long id) {
+        remove(new QueryWrapper<ProjectMilestones>().eq("project_id", id));
+    }
 }

@@ -56,4 +56,9 @@ public class RegistrationProgressServiceImpl extends ServiceImpl<RegistrationPro
             throw new RuntimeException("模块化数量信息不存在，无法更新");
         }
     }
+
+    @Override
+    public void deleteByProjectId(Long id) {
+        remove(new QueryWrapper<RegistrationProgress>().eq("project_id", id));
+    }
 }
