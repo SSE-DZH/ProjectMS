@@ -1,15 +1,14 @@
 package com.zhiend.projectms.controller;
 
 
+import com.zhiend.projectms.dto.ProjectMilestonesDTO;
 import com.zhiend.projectms.result.Result;
 import com.zhiend.projectms.service.IProjectMilestonesService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -21,16 +20,53 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/project-milestones")
+@Api(tags = "项目节点管理")
 public class ProjectMilestonesController {
     @Autowired
     private IProjectMilestonesService projectMilestonesService;
 
-    @ApiOperation("获取项目节点完成情况信息")
+    @ApiOperation("根据projectId获取项目节点")
     @GetMapping("/{id}")
-    public Result<?> getProjectMilestones(@PathVariable Long id) {
-        // 普通用户查看功能
-        // 实现根据 id 获取项目节点完成情况信息的逻辑
-        // projectMilestonesService.getById(id);
-        return Result.success("Get project milestones by id: " + id);
+    public Result<?> getProjectMilestones(@PathVariable Long projectId) {
+        return Result.success(projectMilestonesService.getProjectMilestones(projectId));
+    }
+
+    @ApiOperation("添加项目节点")
+    @PostMapping("/add")
+    public Result<?> add(@RequestBody ProjectMilestonesDTO ProjectMilestonesDTO) {
+        // 检查项目id是否已存在
+        if (projectMilestonesService.isProjectIdExists(ProjectMilestonesDTO.getProjectId())) {
+            return Result.error("项目节点已存在，不能重复添加");
+        }
+
+        // 执行添加操作
+        projectMilestonesService.addProjectMilestones(ProjectMilestonesDTO);
+        return Result.success("项目节点添加成功");
+    }
+
+    @ApiOperation("更新项目节点")
+    @PutMapping("/{id}")
+    public Result<?> update(@PathVariable Long id, @RequestBody ProjectMilestonesDTO ProjectMilestonesDTO) {
+        // 管理员操作
+        try {
+            projectMilestonesService.updateProject(id, ProjectMilestonesDTO);
+            return Result.success("项目节点更新成功");
+        } catch (Exception e) {
+            return Result.error("项目节点更新失败：" + e.getMessage());
+        }
+    }
+
+    @ApiOperation("删除项目节点")
+    @DeleteMapping("/{id}")
+    @Transactional
+    public Result<?> delete(@PathVariable Long id) {
+        // 管理员操作
+        // 实现删除项目状态信息的逻辑
+        try {
+            projectMilestonesService.removeById(id);
+            return Result.success("项目节点删除成功");
+        } catch (Exception e) {
+            return Result.error("项目节点删除失败：" + e.getMessage());
+        }
     }
 }

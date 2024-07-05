@@ -1,5 +1,6 @@
 package com.zhiend.projectms.service;
 
+import com.zhiend.projectms.dto.ProjectMilestonesDTO;
 import com.zhiend.projectms.entity.ProjectMilestones;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IProjectMilestonesService extends IService<ProjectMilestones> {
 
+    ProjectMilestones getProjectMilestones(Long projectId);
+
+    boolean isProjectIdExists(Long projectId);
+
+    void addProjectMilestones(ProjectMilestonesDTO projectMilestonesDTO);
+
+    void updateProject(Long id, ProjectMilestonesDTO projectMilestonesDTO);
 }
