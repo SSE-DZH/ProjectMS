@@ -1,6 +1,7 @@
 package com.zhiend.projectms.controller;
 
 
+import com.zhiend.projectms.dto.DevelopmentStatusDTO;
 import com.zhiend.projectms.entity.Admin;
 import com.zhiend.projectms.entity.DevelopmentStatus;
 import com.zhiend.projectms.page.BackPage;
@@ -9,6 +10,7 @@ import com.zhiend.projectms.service.IDevelopmentStatusService;
 import com.zhiend.projectms.service.IProjectsService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -46,7 +48,6 @@ public class DevelopmentStatusController {
         // 普通用户查看功能
         // 实现根据 id 获取研制状态与进展信息的逻辑
         // developmentStatusService.getById(id);
-//        return Result.success("Get development status by id: " + id);
         DevelopmentStatus developmentStatus = developmentStatusService.getById(id);
         return Result.success(projectsService.getById(developmentStatus.getProjectId()));
     }
@@ -54,9 +55,14 @@ public class DevelopmentStatusController {
     @ApiOperation("添加研制状态与进展信息")
     @PostMapping("/add")
     public Result<?> addDevelopmentStatus(@RequestBody DevelopmentStatusDTO statusDTO) {
-        // 管理员操作
-        // 实现添加研制状态与进展信息的逻辑
-        return Result.success("Add development status successfully");
+        // 检查项目名称是否已存在
+        if (developmentStatusService.isProjectIdExists(statusDTO.getProjectId())) {
+            return Result.error("项目状态已存在，不能重复添加");
+        }
+
+        // 执行添加操作
+        developmentStatusService.addStatus(statusDTO);
+        return Result.success("项目状态添加成功");
     }
 
     @ApiOperation("更新研制状态与进展信息")
@@ -64,14 +70,22 @@ public class DevelopmentStatusController {
     public Result<?> updateDevelopmentStatus(@PathVariable Long id, @RequestBody DevelopmentStatusDTO statusDTO) {
         // 管理员操作
         // 实现更新研制状态与进展信息的逻辑
-        return Result.success("Update development status successfully");
+        try {
+            developmentStatusService.updateProject(id, statusDTO);
+            return Result.success("项目状态信息更新成功");
+        } catch (Exception e) {
+            return Result.error("项目状态信息更新失败：" + e.getMessage());
+        }
     }
 
     @ApiOperation("删除研制状态与进展信息")
     @DeleteMapping("/{id}")
+    @Transactional
     public Result<?> deleteDevelopmentStatus(@PathVariable Long id) {
-        // 管理员操作
-        // 实现删除研制状态与进展信息的逻辑
-        return Result.success("Delete development status successfully");
+        boolean removed = developmentStatusService.removeById(id);
+        if (!removed) {
+            return Result.error("Admin not found");
+        }
+        return Result.success("Admin deleted successfully");
     }
 }
