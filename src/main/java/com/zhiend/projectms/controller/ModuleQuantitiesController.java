@@ -6,6 +6,7 @@ import com.zhiend.projectms.result.Result;
 import com.zhiend.projectms.service.IModuleQuantitiesService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -51,6 +52,20 @@ public class ModuleQuantitiesController {
             return Result.success("项目状态信息更新成功");
         } catch (Exception e) {
             return Result.error("项目状态信息更新失败：" + e.getMessage());
+        }
+    }
+
+    @ApiOperation("删除模块化数量信息")
+    @DeleteMapping("/{id}")
+    @Transactional
+    public Result<?> delete(@PathVariable Long id) {
+        // 管理员操作
+        // 实现删除项目状态信息的逻辑
+        try {
+            moduleQuantitiesService.removeById(id);
+            return Result.success("项目模块化信息删除成功");
+        } catch (Exception e) {
+            return Result.error("项目模块化信息删除失败：" + e.getMessage());
         }
     }
 }
