@@ -3,7 +3,9 @@ package com.zhiend.projectms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zhiend.projectms.dto.LogDTO;
 import com.zhiend.projectms.dto.ProjectsDTO;
+import com.zhiend.projectms.entity.DevelopmentStatus;
 import com.zhiend.projectms.entity.Projects;
 import com.zhiend.projectms.mapper.ProjectsMapper;
 import com.zhiend.projectms.page.BackPage;
@@ -99,8 +101,12 @@ public class ProjectsServiceImpl extends ServiceImpl<ProjectsMapper, Projects> i
                 .setWorkload(projectsDTO.getWorkload())
                 .setProjectDuration(projectsDTO.getProjectDuration())
                 .setCurrentStatus(projectsDTO.getCurrentStatus());
-
         save(projects);
+        LogDTO logDTO = LogDTO.builder()
+                .projectId(projects.getId())
+                .currentStatus(projects.getCurrentStatus())
+                .build();
+        logService.addLog(logDTO);
     }
 
 
@@ -138,7 +144,7 @@ public class ProjectsServiceImpl extends ServiceImpl<ProjectsMapper, Projects> i
      * 检查项目名称是否存在，排除当前项目的名称
      *
      * @param projectName 项目名称
-     * @param projectId 当前项目ID
+     * @param projectId   当前项目ID
      * @return 如果名称存在返回true，否则返回false
      */
     private boolean isProjectNameExistsExceptCurrent(String projectName, Long projectId) {

@@ -2,6 +2,7 @@ package com.zhiend.projectms.dto;
 
 import com.zhiend.projectms.enums.ProgressEnum;
 import com.zhiend.projectms.enums.StatusEnum;
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
  * @since 2024-07-05
  */
 @Data
+@Builder
 public class LogDTO implements Serializable {
 
 
