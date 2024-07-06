@@ -1,9 +1,11 @@
 package com.zhiend.projectms.service;
 
+import com.zhiend.projectms.dto.LoginDTO;
 import com.zhiend.projectms.dto.UserDTO;
 import com.zhiend.projectms.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zhiend.projectms.page.BackPage;
+import com.zhiend.projectms.vo.LoginVO;
 
 /**
  * <p>
@@ -21,4 +23,6 @@ public interface IUserService extends IService<User> {
     BackPage<User> listByBackPage(Long pageNo, Long pageSize);
 
     void updateUser(Long id, UserDTO userDTO);
+
+    LoginVO login(LoginDTO loginDTO);
 }

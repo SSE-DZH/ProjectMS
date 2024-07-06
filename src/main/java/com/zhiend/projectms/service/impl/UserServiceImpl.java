@@ -3,6 +3,7 @@ package com.zhiend.projectms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zhiend.projectms.dto.LoginDTO;
 import com.zhiend.projectms.dto.UserDTO;
 import com.zhiend.projectms.entity.User;
 import com.zhiend.projectms.entity.User;
@@ -10,6 +11,7 @@ import com.zhiend.projectms.mapper.UserMapper;
 import com.zhiend.projectms.page.BackPage;
 import com.zhiend.projectms.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zhiend.projectms.vo.LoginVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +51,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             BeanUtils.copyProperties(userDTO, admin);
             this.updateById(admin);
         }
+    }
+
+    @Override
+    public LoginVO login(LoginDTO loginDTO) {
+        //根据邮箱查询用户
+        User user = this.getOne(new QueryWrapper<User>().eq("email", loginDTO.getEmail()));
+        if (user != null && user.getPassword().equals(loginDTO.getPassword())) {
+            LoginVO loginVO = new LoginVO();
+            BeanUtils.copyProperties(user, loginVO);
+            return loginVO;
+        }
+        return null;
     }
 
     @Override
