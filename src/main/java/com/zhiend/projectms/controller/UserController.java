@@ -50,7 +50,7 @@ public class UserController {
     public Result<?> login(@RequestBody LoginDTO loginDTO) {
         LoginVO loginVO = userService.login(loginDTO);
         if (loginVO == null) {
-            return Result.error("未发现用户信息！");
+            return Result.error("邮箱或密码错误！");
         }
         return Result.success(loginVO);
     }

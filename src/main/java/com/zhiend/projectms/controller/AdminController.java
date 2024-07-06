@@ -1,11 +1,13 @@
 package com.zhiend.projectms.controller;
 
 
+import com.zhiend.projectms.dto.LoginDTO;
 import com.zhiend.projectms.dto.UserDTO;
 import com.zhiend.projectms.entity.Admin;
 import com.zhiend.projectms.page.BackPage;
 import com.zhiend.projectms.result.Result;
 import com.zhiend.projectms.service.IAdminService;
+import com.zhiend.projectms.vo.LoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,16 @@ public class AdminController {
 
     @Autowired
     private IAdminService adminService;
+
+    @ApiOperation("管理员登录")
+    @PostMapping("/login")
+    public Result<?> login(@RequestBody LoginDTO loginDTO) {
+        LoginVO loginVO = adminService.login(loginDTO);
+        if (loginVO == null) {
+            return Result.error("邮箱或者密码错误！");
+        }
+        return Result.success(loginVO);
+    }
 
     @ApiOperation("添加管理员")
     @PostMapping("/add")

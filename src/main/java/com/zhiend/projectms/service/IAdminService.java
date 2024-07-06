@@ -1,9 +1,11 @@
 package com.zhiend.projectms.service;
 
+import com.zhiend.projectms.dto.LoginDTO;
 import com.zhiend.projectms.dto.UserDTO;
 import com.zhiend.projectms.entity.Admin;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zhiend.projectms.page.BackPage;
+import com.zhiend.projectms.vo.LoginVO;
 
 import java.util.List;
 
@@ -21,4 +23,6 @@ public interface IAdminService extends IService<Admin> {
     BackPage<Admin> listByBackPage(Long pageNo, Long pageSize);
 
     void updateAdmin(Long id, UserDTO userDTO);
+
+    LoginVO login(LoginDTO loginDTO);
 }
