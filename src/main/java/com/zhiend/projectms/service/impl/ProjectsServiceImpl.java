@@ -100,7 +100,8 @@ public class ProjectsServiceImpl extends ServiceImpl<ProjectsMapper, Projects> i
                 .setProjectScore(projectsDTO.getProjectScore())
                 .setWorkload(projectsDTO.getWorkload())
                 .setProjectDuration(projectsDTO.getProjectDuration())
-                .setCurrentStatus(projectsDTO.getCurrentStatus());
+                .setCurrentStatus(projectsDTO.getCurrentStatus())
+                .setCreatorId(projectsDTO.getCreatorId());
         save(projects);
         LogDTO logDTO = LogDTO.builder()
                 .projectId(projects.getId())
@@ -138,6 +139,44 @@ public class ProjectsServiceImpl extends ServiceImpl<ProjectsMapper, Projects> i
         projectMilestonesService.deleteByProjectId(id);
         riskService.deleteByProjectId(id);
         return removeById(id);
+    }
+
+    @Override
+    public BackPage<Projects> listByCreatorId(String creatorId, Long pageNo, Long pageSize) {
+        BackPage<Projects> ProjectsBackPage = new BackPage<>();
+        // 设置条件构造器
+        QueryWrapper<Projects> wrapper = new QueryWrapper<>();
+        wrapper.eq("creator_id", creatorId);
+        // 构造分页信息，其中的Page<>(page, PAGE_RECORDS_NUM)的第一个参数是第几页，而第二个参数是每页的记录数
+        Page<Projects> ProjectsPage = new Page<>(pageNo, pageSize);
+        // page(ProjectsPage, wrapper)这里的第一个参数就是上面定义了的Page对象，第二个参数就是上面定义的条件构造器对象，通过调用这个方法就可以根据你的分页信息以及查询信息获取分页数据
+        IPage<Projects> ProjectsIPage = page(ProjectsPage, wrapper);
+        // 封装数据，其中getRecords()是获取记录数，getCurrent()获取当前页数，getPages()获取总页数，getTotal()获取记录总数，还要其他更多的方法，大家可以自行查看，在这里就不过多赘述了
+        ProjectsBackPage.setContentList(ProjectsIPage.getRecords());
+        ProjectsBackPage.setCurrentPage(ProjectsIPage.getCurrent());
+        ProjectsBackPage.setTotalPage(ProjectsIPage.getPages());
+        ProjectsBackPage.setTotalNum(ProjectsIPage.getTotal());
+        return ProjectsBackPage;
+    }
+
+    @Override
+    public ArrayList<Long> getProjectCount() {
+        //首先返回项目总数
+        ArrayList<Long> countList = new ArrayList<>();
+        countList.add(count());
+        //返回状态为0的项目总数
+        countList.add(count(new QueryWrapper<Projects>().eq("current_status", 0)));
+        //返回状态为1的项目总数
+        countList.add(count(new QueryWrapper<Projects>().eq("current_status", 1)));
+        //返回状态为2的项目总数
+        countList.add(count(new QueryWrapper<Projects>().eq("current_status", 2)));
+        //返回状态为3的项目总数
+        countList.add(count(new QueryWrapper<Projects>().eq("current_status", 3)));
+        //返回状态为4的项目总数
+        countList.add(count(new QueryWrapper<Projects>().eq("current_status", 4)));
+        //返回状态为5的项目总数
+        countList.add(count(new QueryWrapper<Projects>().eq("current_status", 5)));
+        return countList;
     }
 
     /**

@@ -21,6 +21,7 @@ public class ProjectsDTO {
     private Integer workload;
     private Integer projectDuration;
     private StatusEnum currentStatus;
+    private String creatorId;
 
     // Constructors, getters, setters, and other methods as needed
 }

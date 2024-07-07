@@ -25,4 +25,8 @@ public interface IProjectsService extends IService<Projects> {
     void updateProject(Long id, ProjectsDTO projectsDTO);
 
     boolean removeAllById(Long id);
+
+    BackPage<Projects> listByCreatorId(String creatorId, Long pageNo, Long pageSize);
+
+    ArrayList<Long> getProjectCount();
 }

@@ -79,6 +79,20 @@ public class ProjectsController {
         }
     }
 
+    //根据创建者id进行分页返回其所有项目，id字段为String
+    @ApiOperation("根据创建者id获取项目信息")
+    @GetMapping("/creator/{creatorId}")
+    public Result<BackPage<Projects>> getProjectsByCreatorId(@PathVariable String creatorId, @RequestParam("pageNo") Long pageNo, @RequestParam("pageSize") Long pageSize) {
+        return Result.success(projectsService.listByCreatorId(creatorId, pageNo, pageSize));
+    }
+
+    //返回所有项目总数，以及各个StatusEnum总数
+    @ApiOperation("获取所有项目总数及状态分类数")
+    @GetMapping("/count")
+    public Result<ArrayList<Long>> getProjectCount() {
+        return Result.success(projectsService.getProjectCount());
+    }
+
     @ApiOperation("删除项目")
     @DeleteMapping("/{id}")
     @Transactional

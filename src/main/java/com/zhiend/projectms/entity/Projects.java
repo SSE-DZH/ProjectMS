@@ -95,5 +95,8 @@ public class Projects implements Serializable {
      */
     private StatusEnum currentStatus;
 
-
+    /**
+     * 创建者id
+     */
+    private String creatorId;
 }
