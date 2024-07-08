@@ -23,5 +23,4 @@ public class ProjectsDTO {
     private StatusEnum currentStatus;
     private String creatorId;
 
-    // Constructors, getters, setters, and other methods as needed
 }
